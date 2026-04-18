@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'">
+  <title>MinId3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Empty / drop state -->
+  <div id="empty-state">
+    <div id="drop-zone">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      <p class="drop-message">
+        <a href="#" id="open-link">Click here to open</a> or drag files here
+      </p>
+      <p class="drop-hint">MP3 files or folders containing MP3s</p>
+    </div>
+    <div id="empty-drag-overlay" class="drag-overlay hidden">Drop files here</div>
+  </div>
+
+  <!-- Editor state (hidden until files are loaded) -->
+  <div id="editor-state" class="hidden">
+
+    <!-- Left: file list -->
+    <div id="file-panel">
+      <div id="file-panel-header">Current Files</div>
+      <div id="file-list"></div>
+      <div id="file-panel-footer">
+        <button id="add-file-btn">Add file</button>
+        <button id="close-file-btn" disabled>Close file</button>
+      </div>
+    </div>
+
+    <!-- Right: tag editor -->
+    <div id="tag-panel">
+      <div id="tag-scroll">
+
+        <!-- Album art -->
+        <section id="art-section" aria-label="Album art">
+          <div id="art-thumb">
+            <img id="art-img" alt="Album art">
+            <div id="art-placeholder">No art</div>
+          </div>
+          <div id="art-controls">
+            <a href="#" id="select-art-btn">Select album art</a>
+          </div>
+        </section>
+
+        <!-- Tag fields -->
+        <div id="tag-fields">
+          <div class="field-row">
+            <label for="f-title">Title</label>
+            <input id="f-title" type="text" data-field="title"
+              autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-artist">Artist</label>
+            <input id="f-artist" type="text" data-field="artist"
+              autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-album">Album</label>
+            <input id="f-album" type="text" data-field="album"
+              autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-year">Year</label>
+            <input id="f-year" type="text" data-field="year"
+              maxlength="4" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-track">Track</label>
+            <input id="f-track" type="text" data-field="trackNumber"
+              autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-genre">Genre</label>
+            <input id="f-genre" type="text" data-field="genre"
+              autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="f-comment">Comment</label>
+            <input id="f-comment" type="text" data-field="comment"
+              autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+
+      </div>
+
+      <div id="apply-bar">
+        <button id="apply-btn" disabled>Apply changes to 0 file(s)</button>
+      </div>
+    </div>
+
+    <div id="editor-drag-overlay" class="drag-overlay hidden">Drop files here</div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

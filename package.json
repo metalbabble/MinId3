@@ -1,0 +1,103 @@
+{
+  "name": "minid3",
+  "version": "1.0.0",
+  "description": "Minimal cross-platform ID3 tag editor for MP3 files",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac --linux --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "build:win": "electron-builder --win"
+  },
+  "keywords": [
+    "mp3",
+    "id3",
+    "electron",
+    "tag",
+    "editor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-id3": "^0.2.6"
+  },
+  "devDependencies": {
+    "electron": "^41.2.1",
+    "electron-builder": "^26.8.1"
+  },
+  "build": {
+    "appId": "com.minid3.app",
+    "productName": "MinId3",
+    "asar": true,
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ],
+    "mac": {
+      "icon": "assets/minid3.png",
+      "category": "public.app-category.music",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "fileAssociations": [
+        {
+          "ext": "mp3",
+          "name": "MP3 Audio File",
+          "role": "Editor"
+        }
+      ]
+    },
+    "linux": {
+      "icon": "assets/minid3.png",
+      "category": "Audio",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "fileAssociations": [
+        {
+          "ext": "mp3",
+          "name": "MP3 Audio File"
+        }
+      ]
+    },
+    "win": {
+      "icon": "assets/minid3.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "fileAssociations": [
+        {
+          "ext": "mp3",
+          "name": "MP3 Audio File"
+        }
+      ]
+    }
+  }
+}
