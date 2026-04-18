@@ -76,15 +76,10 @@ function createWindow() {
   });
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
-});
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+  app.quit();
 });
 
 // ---- IPC Handlers ----
@@ -220,5 +215,20 @@ ipcMain.handle('write-tags', async (_event, filePaths, updates) => {
     }
   }
 
+  return { success: errors.length === 0, errors };
+});
+
+ipcMain.handle('remove-tags', async (_event, filePaths) => {
+  const errors = [];
+  for (const filePath of filePaths) {
+    try {
+      const result = NodeID3.removeTags(filePath);
+      if (result !== true) {
+        errors.push({ filePath, error: `Remove returned: ${result}` });
+      }
+    } catch (e) {
+      errors.push({ filePath, error: String(e) });
+    }
+  }
   return { success: errors.length === 0, errors };
 });

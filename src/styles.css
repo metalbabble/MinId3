@@ -127,15 +127,56 @@ body {
   user-select: none;
 }
 
-#select-all-btn {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: none;
-  letter-spacing: 0;
+#menu-container {
+  position: relative;
 }
-#select-all-btn:hover { text-decoration: underline; }
+
+#hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px 5px;
+  color: var(--accent);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+#hamburger-btn:hover { background: var(--hover-bg); }
+
+#hamburger-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  min-width: 190px;
+  z-index: 100;
+  overflow: hidden;
+  padding: 4px 0;
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text);
+  font-family: inherit;
+}
+.menu-item:hover { background: var(--hover-bg); }
+
+.menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
 
 #file-list {
   flex: 1;

@@ -13,7 +13,8 @@ const emptyStateEl    = document.getElementById('empty-state');
 const editorStateEl   = document.getElementById('editor-state');
 const fileListEl      = document.getElementById('file-list');
 const closeFileBtn    = document.getElementById('close-file-btn');
-const selectAllBtn    = document.getElementById('select-all-btn');
+const hamburgerBtn    = document.getElementById('hamburger-btn');
+const hamburgerMenu   = document.getElementById('hamburger-menu');
 const applyBtn        = document.getElementById('apply-btn');
 const artImg          = document.getElementById('art-img');
 const artPlaceholder  = document.getElementById('art-placeholder');
@@ -113,8 +114,6 @@ function renderFileList() {
   }
 
   closeFileBtn.disabled = getChecked().length === 0;
-  const allChecked = state.files.length > 0 && state.files.every(f => f.checked);
-  selectAllBtn.textContent = allChecked ? 'Deselect all' : 'Select all';
 }
 
 async function handleCheckChange(file, newChecked) {
@@ -289,12 +288,20 @@ document.getElementById('select-art-btn').addEventListener('click', async (e) =>
   artPlaceholder.style.display = 'none';
 });
 
-// ---- Select / deselect all ----
+// ---- Hamburger menu ----
 
-selectAllBtn.addEventListener('click', async (e) => {
-  e.preventDefault();
-  const allChecked = state.files.every(f => f.checked);
-  const newChecked = !allChecked;
+function openMenu() { hamburgerMenu.classList.remove('hidden'); }
+function closeMenu() { hamburgerMenu.classList.add('hidden'); }
+
+hamburgerBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  hamburgerMenu.classList.contains('hidden') ? openMenu() : closeMenu();
+});
+
+document.addEventListener('click', () => closeMenu());
+hamburgerMenu.addEventListener('click', (e) => e.stopPropagation());
+
+async function setAllChecked(newChecked) {
   if (hasDirtyChanges()) {
     const ok = confirm('You have unapplied changes. These will be lost if you change your selection. Continue?');
     if (!ok) return;
@@ -303,6 +310,68 @@ selectAllBtn.addEventListener('click', async (e) => {
   state.files.forEach(f => { f.checked = newChecked; });
   renderFileList();
   updateTagFields();
+}
+
+document.getElementById('menu-select-all').addEventListener('click', () => {
+  closeMenu();
+  setAllChecked(true);
+});
+
+document.getElementById('menu-deselect-all').addEventListener('click', () => {
+  closeMenu();
+  setAllChecked(false);
+});
+
+document.getElementById('menu-titles-to-filename').addEventListener('click', async () => {
+  closeMenu();
+  const checked = getChecked();
+  if (checked.length === 0) { showToast('No files selected', 'info'); return; }
+  const ok = confirm(`Are you sure you want to apply this update to ${checked.length} file(s)?`);
+  if (!ok) return;
+
+  let errorCount = 0;
+  for (const file of checked) {
+    const title = file.baseName.replace(/\.mp3$/i, '');
+    const result = await window.minid3.writeTags([file.filePath], { title });
+    if (!result.success) errorCount++;
+    else {
+      const refreshed = await window.minid3.readTags([file.filePath]);
+      if (refreshed[0]) file.tags = refreshed[0];
+    }
+  }
+
+  clearDirty();
+  updateTagFields();
+  if (errorCount > 0) {
+    showToast(`Failed on ${errorCount} file(s)`, 'error');
+  } else {
+    showToast(`Titles set for ${checked.length} file(s)`, 'success');
+  }
+});
+
+document.getElementById('menu-remove-id3').addEventListener('click', async () => {
+  closeMenu();
+  const checked = getChecked();
+  if (checked.length === 0) { showToast('No files selected', 'info'); return; }
+  const ok = confirm(`Are you sure you want to apply this update to ${checked.length} file(s)?`);
+  if (!ok) return;
+
+  const filePaths = checked.map(f => f.filePath);
+  const result = await window.minid3.removeTags(filePaths);
+
+  const refreshed = await window.minid3.readTags(filePaths);
+  for (const tagResult of refreshed) {
+    const file = state.files.find(f => f.filePath === tagResult.filePath);
+    if (file) file.tags = tagResult;
+  }
+
+  clearDirty();
+  updateTagFields();
+  if (!result.success) {
+    showToast(`Failed on ${result.errors.length} file(s)`, 'error');
+  } else {
+    showToast(`ID3 data removed from ${checked.length} file(s)`, 'success');
+  }
 });
 
 // ---- Add / close file buttons ----
