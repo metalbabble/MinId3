@@ -44,17 +44,6 @@
     <div id="tag-panel">
       <div id="tag-scroll">
 
-        <!-- Album art -->
-        <section id="art-section" aria-label="Album art">
-          <div id="art-thumb">
-            <img id="art-img" alt="Album art">
-            <div id="art-placeholder">No art</div>
-          </div>
-          <div id="art-controls">
-            <a href="#" id="select-art-btn">Select album art</a>
-          </div>
-        </section>
-
         <!-- Tag fields -->
         <div id="tag-fields">
           <div class="field-row">
@@ -72,25 +61,42 @@
             <input id="f-album" type="text" data-field="album"
               autocomplete="off" spellcheck="false">
           </div>
-          <div class="field-row">
-            <label for="f-year">Year</label>
-            <input id="f-year" type="text" data-field="year"
-              maxlength="4" autocomplete="off" spellcheck="false">
-          </div>
-          <div class="field-row">
-            <label for="f-track">Track</label>
-            <input id="f-track" type="text" data-field="trackNumber"
-              autocomplete="off" spellcheck="false">
-          </div>
-          <div class="field-row">
-            <label for="f-genre">Genre</label>
-            <input id="f-genre" type="text" data-field="genre"
-              autocomplete="off" spellcheck="false">
-          </div>
-          <div class="field-row">
-            <label for="f-comment">Comment</label>
-            <input id="f-comment" type="text" data-field="comment"
-              autocomplete="off" spellcheck="false">
+
+          <!-- Short fields + album art side by side -->
+          <div id="fields-art-row">
+            <div id="short-fields">
+              <div class="field-row">
+                <label for="f-year">Year</label>
+                <input id="f-year" type="text" data-field="year"
+                  maxlength="4" autocomplete="off" spellcheck="false">
+              </div>
+              <div class="field-row">
+                <label for="f-track">Track</label>
+                <input id="f-track" type="text" data-field="trackNumber"
+                  autocomplete="off" spellcheck="false">
+              </div>
+              <div class="field-row">
+                <label for="f-genre">Genre</label>
+                <input id="f-genre" type="text" data-field="genre"
+                  autocomplete="off" spellcheck="false">
+              </div>
+              <div class="field-row">
+                <label for="f-comment">Comment</label>
+                <input id="f-comment" type="text" data-field="comment"
+                  autocomplete="off" spellcheck="false">
+              </div>
+            </div>
+
+            <!-- Album art -->
+            <section id="art-section" aria-label="Album art">
+              <div id="art-thumb">
+                <img id="art-img" alt="Album art">
+                <div id="art-placeholder">No art</div>
+              </div>
+              <div id="art-controls">
+                <a href="#" id="select-art-btn">Select album art</a>
+              </div>
+            </section>
           </div>
         </div>
 

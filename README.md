@@ -2,6 +2,8 @@
 
 A minimal, cross-platform ID3 tag editor for MP3 files, built with Electron.
 
+![MinId3](assets/screenshot.png)
+
 ## Features
 
 - Edit common ID3 tags: Title, Artist, Album, Year, Track, Genre, Comment, Album Art
