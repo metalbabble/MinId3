@@ -114,6 +114,9 @@ body {
 }
 
 #file-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 14px 16px 12px;
   font-size: 12px;
   font-weight: 600;
@@ -123,6 +126,16 @@ body {
   border-bottom: 1px solid var(--border);
   user-select: none;
 }
+
+#select-all-btn {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+#select-all-btn:hover { text-decoration: underline; }
 
 #file-list {
   flex: 1;
@@ -160,19 +173,22 @@ body {
 
 #file-panel-footer {
   display: flex;
+  align-items: center;
   gap: 8px;
-  padding: 12px;
+  height: 61px;
+  padding: 0 12px;
   border-top: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 #file-panel-footer button {
   flex: 1;
-  padding: 7px 4px;
+  padding: 10px 4px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--panel-bg);
   color: var(--text);
-  font-size: 13px;
+  font-size: 14px;
   cursor: pointer;
   transition: background 0.1s;
 }
@@ -301,9 +317,13 @@ body {
 /* ---- Apply bar ---- */
 
 #apply-bar {
-  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  height: 61px;
+  padding: 0 20px;
   border-top: 1px solid var(--border);
   background: var(--panel-bg);
+  flex-shrink: 0;
 }
 
 #apply-btn {

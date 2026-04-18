@@ -13,6 +13,7 @@ const emptyStateEl    = document.getElementById('empty-state');
 const editorStateEl   = document.getElementById('editor-state');
 const fileListEl      = document.getElementById('file-list');
 const closeFileBtn    = document.getElementById('close-file-btn');
+const selectAllBtn    = document.getElementById('select-all-btn');
 const applyBtn        = document.getElementById('apply-btn');
 const artImg          = document.getElementById('art-img');
 const artPlaceholder  = document.getElementById('art-placeholder');
@@ -112,6 +113,8 @@ function renderFileList() {
   }
 
   closeFileBtn.disabled = getChecked().length === 0;
+  const allChecked = state.files.length > 0 && state.files.every(f => f.checked);
+  selectAllBtn.textContent = allChecked ? 'Deselect all' : 'Select all';
 }
 
 async function handleCheckChange(file, newChecked) {
@@ -284,6 +287,22 @@ document.getElementById('select-art-btn').addEventListener('click', async (e) =>
   artImg.src = result.dataUrl;
   artImg.classList.add('visible');
   artPlaceholder.style.display = 'none';
+});
+
+// ---- Select / deselect all ----
+
+selectAllBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const allChecked = state.files.every(f => f.checked);
+  const newChecked = !allChecked;
+  if (hasDirtyChanges()) {
+    const ok = confirm('You have unapplied changes. These will be lost if you change your selection. Continue?');
+    if (!ok) return;
+    clearDirty();
+  }
+  state.files.forEach(f => { f.checked = newChecked; });
+  renderFileList();
+  updateTagFields();
 });
 
 // ---- Add / close file buttons ----
