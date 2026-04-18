@@ -322,7 +322,7 @@ document.getElementById('menu-deselect-all').addEventListener('click', () => {
   setAllChecked(false);
 });
 
-document.getElementById('menu-titles-to-filename').addEventListener('click', async () => {
+document.getElementById('menu-title-to-filename').addEventListener('click', async () => {
   closeMenu();
   const checked = getChecked();
   if (checked.length === 0) { showToast('No files selected', 'info'); return; }
